@@ -1,0 +1,5 @@
+## Packaged Modules. Safe to ignore
+node_modules
+
+## This is the output directory. Safe to ignore
+dist
