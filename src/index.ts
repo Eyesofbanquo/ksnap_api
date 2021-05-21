@@ -4,6 +4,7 @@ import AWS from 'aws-sdk';
 import fs from 'fs';
 import multer from 'multer';
 import multers3 from 'multer-s3';
+import path from 'path';
 
 import { config } from 'dotenv';
 
@@ -44,9 +45,7 @@ const app = Express();
 app.use(json());
 
 app.get('/', (request, response) => {
-  response.send(
-    'I missed you. Hopefully you had a wonderful nap. Talk to you soon. Love, Markim',
-  );
+  response.sendFile(path.join(__dirname, '/pages/index.html'));
 });
 
 app.post('/', async (request, response) => {
