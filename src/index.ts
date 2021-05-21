@@ -9,6 +9,7 @@ import path from 'path';
 import { config } from 'dotenv';
 import { uploadFileRouter as UploadFileRouter } from './routes/upload-file';
 import { uploadRouter as UploadRouter } from './routes/upload';
+import { retrieveRouter as RetrieveRouter } from './routes/retrieve';
 
 AWS.config.update({ region: 'us-east-1' });
 
@@ -21,6 +22,7 @@ const app = Express();
 app.use(json());
 app.use(UploadFileRouter);
 app.use(UploadRouter);
+app.use(RetrieveRouter);
 
 // For Enabling static files. First point to public then add other possible directories
 app.use(Express.static(path.join(__dirname, 'public')));

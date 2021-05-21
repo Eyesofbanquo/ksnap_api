@@ -7,16 +7,13 @@ import multer from 'multer';
 import multers3 from 'multer-s3';
 import { config } from 'dotenv';
 import path from 'path';
-import { Client } from 'pg';
+import client from '../db';
 
 config();
 
 AWS.config.update({ region: 'us-east-1' });
 
 const BUCKET_NAME = process.env.AWS_BUCKET || 'unknown';
-
-const client = new Client();
-client.connect();
 
 const s3 = new AWS.S3({
   credentials: {
