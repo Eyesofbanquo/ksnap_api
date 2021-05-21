@@ -6,20 +6,18 @@ ENV NODE_ENV=production
 WORKDIR /app
 
 # Copy local package files into this directory
-COPY package*.json ./
+COPY package.json package-lock.json ./
 
-RUN npm install
+RUN npm install --include dev
 
 RUN ["mkdir", "src"]
 
 COPY ./src ./src
 
-COPY tsconfig.json .
-
 COPY .babelrc .
 
 EXPOSE 4000
 
-RUN ["npm", "run", "build"]
+RUN ["npm", "run", "build:babel"]
 
 CMD ["node", "./dist/index.js"]

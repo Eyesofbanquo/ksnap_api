@@ -13,5 +13,8 @@ jobs:
       - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "kyrinnukkah" #Must be unique in Heroku
-          heroku_email: "ms79723@gmail.com"
+          heroku_app_name: 'kyrinnukkah' #Must be unique in Heroku
+          healthcheck: 'https://kyrinnukkah.herokuapp.com/health'
+          heroku_email: 'ms79723@gmail.com'
+          checkstring: 'ok'
+          rollbackonhealthcheckfailed: true

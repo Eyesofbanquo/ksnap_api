@@ -48,6 +48,10 @@ app.get('/', (request, response) => {
   response.sendFile(path.join(__dirname, '/pages/index.html'));
 });
 
+app.get('/health', (request, response) => {
+  response.send('ok');
+});
+
 app.post('/', async (request, response) => {
   const filename = request.body.file;
 
