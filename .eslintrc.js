@@ -16,5 +16,6 @@ module.exports = {
   plugins: ['@typescript-eslint'],
   rules: {
     'no-console': 'off',
+    'no-var-requires': 'off',
   },
 };

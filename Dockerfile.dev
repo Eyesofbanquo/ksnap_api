@@ -1,6 +1,6 @@
 FROM node:16
 
-ENV NODE_ENV=production
+# RUN apt-get update || : && apt-get install python -y
 
 # Create and cd to new folder
 WORKDIR /app
@@ -17,6 +17,14 @@ COPY ./src ./src
 COPY tsconfig.json .
 
 EXPOSE 4000
+
+# RUN pip install pipenv
+
+# WORKDIR /src/scripts
+
+# RUN pipenv run init
+
+# WORKDIR /app
 
 RUN ["npm", "run", "build"]
 

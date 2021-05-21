@@ -3,4 +3,5 @@
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": true
     },
+    "python.pythonPath": "/Users/mshaw/.local/share/virtualenvs/Creache-rrJ2Nq0U/bin/python",
 }
