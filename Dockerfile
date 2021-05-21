@@ -18,6 +18,6 @@ COPY .babelrc .
 
 EXPOSE 4000
 
-RUN ["npm", "run", "build:babel"]
+RUN ["npm", "run", "build:webpack"]
 
 CMD ["node", "./dist/index.js"]

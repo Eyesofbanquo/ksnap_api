@@ -44,6 +44,10 @@ const app = Express();
 
 app.use(json());
 
+// For Enabling static files. First point to public then add other possible directories
+app.use(Express.static(path.join(__dirname, 'public')));
+app.use(Express.static(path.join(__dirname, './styles')));
+
 app.get('/', (request, response) => {
   response.sendFile(path.join(__dirname, '/pages/index.html'));
 });
