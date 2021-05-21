@@ -1,0 +1,17 @@
+/* Define standard variables and values for website */
+$bgcolor: #282c34;
+$textcolor: white;
+$heartcolor: #ff2d55;
+$fontsize: calc(10px + 2vmin);
+$content-fontsize: calc(10px + 2vmin);
+
+/* Use the variables */
+body {
+  background-color: $bgcolor;
+  color: $textcolor;
+  font-size: $fontsize;
+}
+
+#content {
+  font-size: $content-fontsize;
+}

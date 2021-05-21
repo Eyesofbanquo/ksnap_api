@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Upload</title>
+        <style>
+            body { padding-top: 10vmin }
+            body {padding-left: 10vmin}
+        </style>
+        <link rel="stylesheet" href="upload.css"/>
+    </head>
+
+    <body>
+        <div id="content">
+            <form action="/upload" enctype="multipart/form-data" method="post">
+                <input type="file" name="file">
+                <input type="submit" value="Upload">
+            </form>  
+        </div>
+    </body>
+</html>
