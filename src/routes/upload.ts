@@ -1,3 +1,4 @@
+/* eslint-disable import/extensions */
 /* eslint-disable import/prefer-default-export */
 import Express from 'express';
 import { json } from 'body-parser';
@@ -6,12 +7,16 @@ import multer from 'multer';
 import multers3 from 'multer-s3';
 import { config } from 'dotenv';
 import path from 'path';
+import { Client } from 'pg';
 
 config();
 
 AWS.config.update({ region: 'us-east-1' });
 
 const BUCKET_NAME = process.env.AWS_BUCKET || 'unknown';
+
+const client = new Client();
+client.connect();
 
 const s3 = new AWS.S3({
   credentials: {
@@ -43,5 +48,12 @@ uploadRouter.get('/upload', (request, response) => {
 });
 
 uploadRouter.post('/upload', upload.single('file'), async (request, response) => {
-  response.send('File uploaded');
+  const filePath = request.file;
+  console.log(filePath);
+
+  const results = await client.query(`
+  INSERT INTO dates (description, image) VALUES ('Some description', '${filePath.location}') ON CONFLICT DO NOTHING;
+  `);
+
+  response.send(`File uploaded to ${filePath.location}`);
 });
