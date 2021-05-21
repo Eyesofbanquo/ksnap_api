@@ -20,6 +20,8 @@ COPY ./webpack.config.js .
 
 EXPOSE 4000
 
-RUN ["npm", "run", "build:webpack"]
+RUN ["npm", "run", "build:sass"]
+
+RUN ["npm", "run", "build:babel"]
 
 CMD ["node", "./dist/index.js"]
