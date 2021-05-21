@@ -4,7 +4,7 @@
   "description": "API component for KSnap app",
   "main": "index.ts",
   "scripts": {
-    "start": "tsc && node ./dist/index.js",
+    "start": "npm run build:babel && node ./dist/index.js",
     "build:babel": "babel src --out-dir dist --extensions \".ts\" --source-maps inline --copy-files",
     "start:babel": "npm run build:babel && node ./dist/index.js",
     "build": "tsc",
