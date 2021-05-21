@@ -10,6 +10,8 @@ COPY package*.json ./
 
 RUN npm install
 
+RUN npm install @babel/core @babel/cli @babel/preset-env @babel/preset-typescript @babel/plugin-transform-runtime
+
 RUN ["mkdir", "src"]
 
 COPY ./src ./src
