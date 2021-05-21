@@ -16,6 +16,8 @@ COPY ./src ./src
 
 COPY .babelrc .
 
+COPY ./webpack.config.js .
+
 EXPOSE 4000
 
 RUN ["npm", "run", "build:webpack"]
