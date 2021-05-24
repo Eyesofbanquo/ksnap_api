@@ -3,6 +3,7 @@
 import Express from 'express';
 import { json } from 'body-parser';
 import AWS from 'aws-sdk';
+import sslRedirect from 'heroku-ssl-redirect';
 
 import path from 'path';
 
@@ -20,13 +21,7 @@ const PORT = process.env.PORT || 4000;
 const app = Express();
 
 app.use(json());
-if (process.env.NODE_ENV === 'production') {
-  app.use((req, res, next) => {
-    if (req.header('x-forwarded-proto') !== 'https') {
-      res.redirect(`https://${req.header('host')}${req.url}`);
-    } else { next(); }
-  });
-}
+app.use(sslRedirect());
 app.use(UploadFileRouter);
 app.use(UploadRouter);
 app.use(RetrieveRouter);
