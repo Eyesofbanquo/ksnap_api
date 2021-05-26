@@ -29,7 +29,9 @@ retrieveRouter.get('/retrieve', async (request, response) => {
 retrieveRouter.post('/register', async (request, response) => {
   const { token } = request.body;
 
-  const results = await client.query('INSERT INTO device_tokens (token) VALUES ($1) RETURNING *', [token]);
+  console.log(request.body);
+
+  const results = await client.query('INSERT INTO device_tokens (token) VALUES ($1) ON CONFLICT DO NOTHING RETURNING *', [token]);
 
   console.log(results);
   response.send({
