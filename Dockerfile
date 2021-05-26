@@ -18,6 +18,10 @@ COPY .babelrc .
 
 COPY ./webpack.config.js .
 
+RUN ["mkdir", "keys"]
+
+COPY ./keys ./keys
+
 EXPOSE 4000
 
 RUN ["npm", "run", "build:sass"]
