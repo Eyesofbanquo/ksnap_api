@@ -18,5 +18,9 @@ module.exports = {
     'no-console': 'off',
     'no-var-requires': 'off',
     'import/prefer-default-import': 'off',
+    'import/no-unresolved': [
+      2,
+      { caseSensitive: false },
+    ],
   },
 };
