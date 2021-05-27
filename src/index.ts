@@ -7,7 +7,10 @@ import sslRedirect from 'heroku-ssl-redirect';
 
 import path from 'path';
 
+import axios from 'axios';
+
 import { config } from 'dotenv';
+import cron from 'node-cron';
 import { uploadFileRouter as UploadFileRouter } from './routes/upload-file';
 import { uploadRouter as UploadRouter } from './routes/upload';
 import { retrieveRouter as RetrieveRouter } from './routes/retrieve';
@@ -40,4 +43,14 @@ app.get('/health', (request, response) => {
 
 app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`);
+});
+
+cron.schedule('30 8 * * *', async () => {
+  console.log('Running every morning at some time');
+  await axios.post('https://kyrinnukkah.herokuapp.com/apn', {
+    alert: 'Good Morning!',
+  });
+}, {
+  scheduled: true,
+  timezone: 'America/New_York',
 });
