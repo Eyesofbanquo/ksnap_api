@@ -31,7 +31,10 @@ contentUpdateRouter.post('/content-update', async (request, response) => {
 
   const note = new apn.Notification();
   note.expiry = Math.floor(Date.now() / 1000) + 3600;
-  note.alert = 'New Content!';
+  note.alert = {
+    title: 'New Content!',
+    body: '',
+  };
   note.payload = { messageFrom: 'kyrrinn' };
   note.topic = process.env.BUNDLE_ID;
   note.badge = 0;
@@ -40,6 +43,7 @@ contentUpdateRouter.post('/content-update', async (request, response) => {
     content: documents[0],
   };
 
+  console.log(note);
   const result = await apnProvider.send(note, tokens);
 
   response.send(result.sent);

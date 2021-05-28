@@ -44,7 +44,7 @@ retrieveRouter.post('/register', async (request, response) => {
 });
 
 retrieveRouter.post('/apn', async (request, response) => {
-  const { alert } = request.body;
+  const { alert, body } = request.body;
 
   const devices = await client.query('SELECT token FROM device_tokens');
 
@@ -53,7 +53,10 @@ retrieveRouter.post('/apn', async (request, response) => {
 
   const note = new apn.Notification();
   note.expiry = Math.floor(Date.now() / 1000) + 3600;
-  note.alert = alert;
+  note.alert = {
+    title: alert,
+    body: body ?? '',
+  };
   note.payload = { messageFrom: 'kyrrinn' };
   note.topic = process.env.BUNDLE_ID;
 
