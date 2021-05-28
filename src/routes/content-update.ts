@@ -17,8 +17,8 @@ const options = {
   production: process.env.NODE_ENV !== 'development',
 };
 
-contentUpdateRouter.use(json);
+contentUpdateRouter.use(json());
 
 contentUpdateRouter.post('/content-update', (request, response) => {
-  response.send(request);
+  response.send(request.body);
 });
