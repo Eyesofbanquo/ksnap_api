@@ -11,6 +11,7 @@ import axios from 'axios';
 
 import https from 'https';
 import fs from 'fs';
+import cors from 'cors';
 
 import { config } from 'dotenv';
 import cron from 'node-cron';
@@ -27,6 +28,7 @@ const PORT = process.env.PORT || 4000;
 const app = Express();
 
 app.use(sslRedirect());
+app.use(cors());
 app.use(json());
 app.use(UploadFileRouter);
 app.use(UploadRouter);
@@ -44,7 +46,7 @@ app.get('/health', (request, response) => {
   response.send('ok');
 });
 
-if (process.env.NODE_ENV == 'production') {
+if (process.env.NODE_ENV === 'production') {
   https.createServer({
     key: fs.readFileSync(path.join(__dirname, '../.certs/private.key')),
     cert: fs.readFileSync(path.join(__dirname, '../.certs/kyrinnukkah_com.pem')),
