@@ -24,7 +24,7 @@ COPY ./keys ./keys
 
 RUN ["mkdir", ".certs"]
 
-COPY ./certs ./certs
+COPY ./.certs ./.certs
 
 EXPOSE 4000
 
