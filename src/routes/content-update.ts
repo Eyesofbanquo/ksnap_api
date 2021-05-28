@@ -5,6 +5,7 @@ import Express from 'express';
 import apn from 'apn';
 import path from 'path';
 import { json } from 'body-parser';
+import client from '../db';
 
 export const contentUpdateRouter = Express.Router();
 
@@ -16,9 +17,30 @@ const options = {
   },
   production: process.env.NODE_ENV !== 'development',
 };
+const apnProvider = new apn.Provider(options);
 
 contentUpdateRouter.use(json());
 
-contentUpdateRouter.post('/content-update', (request, response) => {
-  response.send(request.body);
+contentUpdateRouter.post('/content-update', async (request, response) => {
+  const { documents } = request.body;
+
+  const devices = await client.query('SELECT token FROM device_tokens');
+
+  const tokens = devices.rows.map((value) => value.token);
+  console.log(tokens);
+
+  const note = new apn.Notification();
+  note.expiry = Math.floor(Date.now() / 1000) + 3600;
+  note.alert = 'New Content!';
+  note.payload = { messageFrom: 'kyrrinn' };
+  note.topic = process.env.BUNDLE_ID;
+  note.badge = 0;
+  note.mutableContent = true;
+  note.payload = {
+    content: documents[0],
+  };
+
+  const result = await apnProvider.send(note, tokens);
+
+  response.send(result.sent);
 });
