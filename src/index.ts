@@ -5,6 +5,8 @@ import { json } from 'body-parser';
 import AWS from 'aws-sdk';
 import sslRedirect from 'heroku-ssl-redirect';
 
+import WebSocket, { Server } from 'ws';
+
 import path from 'path';
 
 import axios from 'axios';
@@ -18,6 +20,7 @@ import cron from 'node-cron';
 import { uploadFileRouter as UploadFileRouter } from './routes/upload-file';
 import { uploadRouter as UploadRouter } from './routes/upload';
 import { retrieveRouter as RetrieveRouter } from './routes/retrieve';
+import { contentUpdateRouter as ContentUpdateRouter } from './routes/content-update';
 
 AWS.config.update({ region: 'us-east-1' });
 
@@ -33,6 +36,7 @@ app.use(json());
 app.use(UploadFileRouter);
 app.use(UploadRouter);
 app.use(RetrieveRouter);
+app.use(ContentUpdateRouter);
 
 // For Enabling static files. First point to public then add other possible directories
 app.use(Express.static(path.join(__dirname, 'public')));

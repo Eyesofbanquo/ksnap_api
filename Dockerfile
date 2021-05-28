@@ -22,6 +22,10 @@ RUN ["mkdir", "keys"]
 
 COPY ./keys ./keys
 
+RUN ["mkdir", ".certs"]
+
+COPY ./certs ./certs
+
 EXPOSE 4000
 
 RUN ["npm", "run", "build:sass"]

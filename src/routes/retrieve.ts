@@ -1,3 +1,5 @@
+/* eslint-disable import/extensions */
+/* eslint-disable import/prefer-default-export */
 import Express from 'express';
 import path from 'path';
 import apn from 'apn';
