@@ -23,8 +23,8 @@ const PORT = process.env.PORT || 4000;
 
 const app = Express();
 
-app.use(json());
 app.use(sslRedirect());
+app.use(json());
 app.use(UploadFileRouter);
 app.use(UploadRouter);
 app.use(RetrieveRouter);
@@ -40,6 +40,8 @@ app.get('/', (request, response) => {
 app.get('/health', (request, response) => {
   response.send('ok');
 });
+
+app.get('*', (request, response) => response.redirect(`https://${request.headers.host}${request.url}`));
 
 app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`);
