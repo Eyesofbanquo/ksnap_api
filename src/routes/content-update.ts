@@ -16,7 +16,7 @@ const options = {
     keyId: process.env.KEY_ID,
     teamId: process.env.DEVELOPER_ID,
   },
-  production: process.env.NODE_ENV === 'production',
+  production: process.env.NODE_ENV !== 'development',
 };
 const apnProvider = new apn.Provider(options);
 
