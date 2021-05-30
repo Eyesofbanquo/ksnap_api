@@ -5,30 +5,44 @@ import {
   Router, Request, Response, NextFunction,
 } from 'express';
 
-import { config } from 'dotenv';
-import createConnectionPool, { sql } from '@databases/pg';
-import { Client } from 'pg';
+import axios from 'axios';
 
-config();
+export const PullContentUpdateMiddleware = async (
+  request,
+  response,
+  next: NextFunction,
+) => {
+  const { masterRef, documents } = request.body;
+  const updatedDocument = documents[0];
 
-const client = new Client();
-client.connect();
+  request.contentUpdate = {
+    masterRef,
+    document: updatedDocument,
+  };
+  next();
+};
 
-/**
- * ! Middleware
- * @param {Request} request - The HTTP Request.
- * @param {Response} response - The HTTP Response.
- * @param {NextFunction} next - The function that forwards to the next available request.
- */
-export const save = async (request: Request, response: Response, next: NextFunction) => {
-  const filePath = request.file.path;
-  console.log(filePath);
+export const NetworkRequestContentUpdateMiddleware = async (
+  request,
+  response: Response,
+  next: NextFunction,
+) => {
+  const URL = process.env.PRISMIC_ENDPOINT;
 
-  const results = await client.query(`
-  INSERT INTO dates (description, image) VALUES ('Some description', ${filePath}) ON CONFLICT DO NOTHING;
-  `);
+  const networkResponse = await axios.get(URL, {
+    params: { ref: request.contentUpdate.masterRef, q: `[[:d = at(document.id, "${request.contentUpdate.document}")]]` },
+  }).catch();
 
-  console.log(results);
+  const result = networkResponse.data.results[0].data;
 
+  console.log(result);
+
+  request.body.image = result.image.url;
+  request.body.quote = result.quote[0].text;
+
+  next();
+};
+
+export const a = async (request, response, next) => {
   next();
 };

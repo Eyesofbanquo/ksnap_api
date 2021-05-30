@@ -6,6 +6,7 @@ import apn from 'apn';
 import path from 'path';
 import { json } from 'body-parser';
 import client from '../db';
+import { PullContentUpdateMiddleware, a, NetworkRequestContentUpdateMiddleware } from '../middleware';
 
 export const contentUpdateRouter = Express.Router();
 
@@ -15,19 +16,18 @@ const options = {
     keyId: process.env.KEY_ID,
     teamId: process.env.DEVELOPER_ID,
   },
-  production: process.env.NODE_ENV !== 'development',
+  production: process.env.NODE_ENV === 'production',
 };
 const apnProvider = new apn.Provider(options);
 
 contentUpdateRouter.use(json());
 
-contentUpdateRouter.post('/content-update', async (request, response) => {
-  const { documents } = request.body;
+contentUpdateRouter.post('/content-update', PullContentUpdateMiddleware, NetworkRequestContentUpdateMiddleware, async (request, response) => {
+  const { image, quote } = request.body;
 
   const devices = await client.query('SELECT token FROM device_tokens');
 
   const tokens = devices.rows.map((value) => value.token);
-  console.log(tokens);
 
   const note = new apn.Notification();
   note.expiry = Math.floor(Date.now() / 1000) + 3600;
@@ -40,7 +40,8 @@ contentUpdateRouter.post('/content-update', async (request, response) => {
   note.badge = 0;
   note.mutableContent = true;
   note.payload = {
-    content: documents[0],
+    content: image,
+    quote,
   };
 
   console.log(note);
