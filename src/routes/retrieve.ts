@@ -64,3 +64,28 @@ retrieveRouter.post('/apn', async (request, response) => {
 
   response.send(result.sent);
 });
+
+retrieveRouter.post('/weather', async (request, response) => {
+  const { title, content, quote } = request.body;
+
+  const devices = await client.query('SELECT token FROM device_tokens').catch();
+
+  const tokens = devices.rows.map((value) => value.token);
+
+  const note = new apn.Notification();
+  note.expiry = Math.floor(Date.now() / 1000) + 3600;
+  note.alert = {
+    title,
+    body: '',
+  };
+  note.badge = 0;
+  note.mutableContent = true;
+  note.payload = { content, quote };
+  note.topic = process.env.BUNDLE_ID;
+
+  const result = await apnProvider.send(note, tokens);
+
+  console.log(result);
+
+  response.send(result.sent);
+});

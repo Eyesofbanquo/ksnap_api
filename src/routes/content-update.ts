@@ -25,7 +25,7 @@ contentUpdateRouter.use(json());
 contentUpdateRouter.post('/content-update', PullContentUpdateMiddleware, NetworkRequestContentUpdateMiddleware, async (request, response) => {
   const { image, quote } = request.body;
 
-  const devices = await client.query('SELECT token FROM device_tokens');
+  const devices = await client.query('SELECT token FROM device_tokens').catch();
 
   const tokens = devices.rows.map((value) => value.token);
 
@@ -42,6 +42,7 @@ contentUpdateRouter.post('/content-update', PullContentUpdateMiddleware, Network
   note.payload = {
     content: image,
     quote,
+    prismic: true,
   };
 
   console.log(note);

@@ -64,10 +64,21 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-cron.schedule('30 8 * * *', async () => {
-  console.log('Running every morning at some time');
-  await axios.post('https://kyrinnukkah.herokuapp.com/apn', {
-    alert: 'Good Morning!',
+cron.schedule('45 7 * * *', async () => {
+  const weatherInfo = await axios.get('https://www.wttr.in/Toronto', {
+    params: { format: 'j1' },
+  });
+
+  const currentWeather = weatherInfo.data.current_condition[0].FeelsLikeC;
+
+  const body = `
+Here is your weather report:
+Currently, it feels like ${currentWeather}C outside.`;
+
+  await axios.post('https://kyrinnukkah.herokuapp.com/weather', {
+    title: 'Good Morning ❤️',
+    quote: body,
+    content: 'https://www.wttr.in/Toronto.png?m',
   });
 }, {
   scheduled: true,
